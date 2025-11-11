@@ -1,7 +1,7 @@
 
 
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../generated/prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -40,8 +40,8 @@ export const createPost = async (req: Request, res: Response) => {
         data: {
             title,
             content,
-            userId,
-            createdAt: new Date(),
+            user_id: BigInt(userId),
+            created_at: new Date(),
             updatedAt: new Date(),
         },
     });
@@ -60,7 +60,7 @@ export const getPosts = async (req: Request, res: Response) => {
         skip: (Number(page) - 1) * Number(size),
         take: Number(size),
         orderBy: {
-            createdAt: 'desc',
+            created_at: 'desc',
         },
     });
     res.status(200).json(posts);
